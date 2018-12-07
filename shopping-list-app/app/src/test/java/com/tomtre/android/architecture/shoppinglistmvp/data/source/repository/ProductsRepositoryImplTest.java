@@ -6,7 +6,6 @@ import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.ProductsCache;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.ProductsDataSource;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,12 +50,7 @@ public class ProductsRepositoryImplTest {
 
     @Before
     public void setUp() {
-        productsRepositoryImpl = ProductsRepositoryImpl.getInstance(productsCache, productsRemoteDataSource, productsLocalDataSource);
-    }
-
-    @After
-    public void cleanUp() {
-        ProductsRepositoryImpl.destroyInstance();
+        productsRepositoryImpl = new ProductsRepositoryImpl(productsCache, productsRemoteDataSource, productsLocalDataSource);
     }
 
     @Test

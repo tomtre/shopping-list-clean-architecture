@@ -1,7 +1,10 @@
-﻿# Shopping List - MVP
+﻿# Shopping List - MVP + Dagger 2 (v2.8)
 Sample Android application based on [Model-View-Presenter (MVP)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) architecture.
+It uses [Dagger 2](https://github.com/google/dagger) dependency injection framework.
 
 ### Dependencies
+###### DI
+- [Dagger 2](https://github.com/google/dagger)
 ###### Database
 - [Room](https://developer.android.com/topic/libraries/architecture/room)
 ###### Testing

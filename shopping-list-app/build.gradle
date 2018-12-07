@@ -34,6 +34,7 @@ ext {
     butterKnifeVersion = "8.8.1"
     timberVersion = "4.7.1"
     leakCanaryVersion = "1.6.2"
+    daggerVersion = "2.8"
 
     runnerVersion = "1.0.2"
     junitVersion = "4.12"

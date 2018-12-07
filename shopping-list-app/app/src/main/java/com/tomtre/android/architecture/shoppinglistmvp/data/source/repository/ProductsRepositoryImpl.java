@@ -1,7 +1,5 @@
 package com.tomtre.android.architecture.shoppinglistmvp.data.source.repository;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
@@ -13,33 +11,19 @@ import java.util.List;
 import timber.log.Timber;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.isNull;
 
 
 @SuppressWarnings("Guava")
 public class ProductsRepositoryImpl implements ProductsRepository {
 
-    private static ProductsRepositoryImpl INSTANCE;
     private final ProductsCache productsCache;
     private final ProductsDataSource productsRemoteDataSource;
     private final ProductsDataSource productsLocalDataSource;
 
-    private ProductsRepositoryImpl(ProductsCache productsCache, ProductsDataSource productsRemoteDataSource, ProductsDataSource productsLocalDataSource) {
+    public ProductsRepositoryImpl(ProductsCache productsCache, ProductsDataSource productsRemoteDataSource, ProductsDataSource productsLocalDataSource) {
         this.productsCache = productsCache;
         this.productsRemoteDataSource = productsRemoteDataSource;
         this.productsLocalDataSource = productsLocalDataSource;
-    }
-
-    public static ProductsRepositoryImpl getInstance(ProductsCache productsCache, ProductsDataSource productsRemoteDataSource, ProductsDataSource productsLocalDataSource) {
-        if (isNull(INSTANCE)) {
-            INSTANCE = new ProductsRepositoryImpl(productsCache, productsRemoteDataSource, productsLocalDataSource);
-        }
-        return INSTANCE;
-    }
-
-    @VisibleForTesting
-    public static void destroyInstance() {
-        INSTANCE = null;
     }
 
     @Override

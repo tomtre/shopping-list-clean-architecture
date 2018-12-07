@@ -9,10 +9,9 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.tomtre.android.architecture.shoppinglistmvp.R;
-import com.tomtre.android.architecture.shoppinglistmvp.data.Injection;
+import com.tomtre.android.architecture.shoppinglistmvp.base.ShoppingListApp;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.repository.ProductsRepository;
-import com.tomtre.android.architecture.shoppinglistmvp.data.source.repository.ProductsRepositoryImpl;
 import com.tomtre.android.architecture.shoppinglistmvp.util.EspressoIdlingResource;
 
 import org.junit.After;
@@ -129,8 +128,8 @@ public class AddEditProductScreenTest {
     }
 
     private void stubProduct(Product product) {
-        ProductsRepositoryImpl.destroyInstance();
-        ProductsRepository productsRepository = Injection.provideProductsRepository(InstrumentationRegistry.getTargetContext());
+        ShoppingListApp shoppingListApp = (ShoppingListApp) InstrumentationRegistry.getTargetContext().getApplicationContext();
+        ProductsRepository productsRepository = shoppingListApp.getProductsRepository();
         productsRepository.saveProduct(product);
     }
 

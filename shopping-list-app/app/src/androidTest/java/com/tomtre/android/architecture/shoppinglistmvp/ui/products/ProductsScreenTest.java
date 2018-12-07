@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.tomtre.android.architecture.shoppinglistmvp.R;
-import com.tomtre.android.architecture.shoppinglistmvp.data.Injection;
+import com.tomtre.android.architecture.shoppinglistmvp.base.ShoppingListApp;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.repository.ProductsRepository;
 import com.tomtre.android.architecture.shoppinglistmvp.util.EspressoIdlingResource;
 import com.tomtre.android.architecture.shoppinglistmvp.util.UiTestUtils;
@@ -67,13 +67,14 @@ public class ProductsScreenTest {
     public ActivityTestRule<ProductsActivity> productsActivityTestRule =
             new ActivityTestRule<ProductsActivity>(ProductsActivity.class) {
 
-                //deletes all products before each test to avoid
+                //Deletes all products before each test to avoid
                 //the need to scroll through the list fo find a product
                 @Override
                 protected void beforeActivityLaunched() {
                     super.beforeActivityLaunched();
                     //can't be used in @Before because of a race condition
-                    ProductsRepository productsRepository = Injection.provideProductsRepository(InstrumentationRegistry.getTargetContext());
+                    ShoppingListApp shoppingListApp = (ShoppingListApp) InstrumentationRegistry.getTargetContext().getApplicationContext();
+                    ProductsRepository productsRepository = shoppingListApp.getProductsRepository();
                     productsRepository.removeAllProducts();
                 }
             };

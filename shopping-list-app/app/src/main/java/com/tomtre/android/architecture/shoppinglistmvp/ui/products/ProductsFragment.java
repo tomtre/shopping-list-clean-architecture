@@ -22,14 +22,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tomtre.android.architecture.shoppinglistmvp.R;
-import com.tomtre.android.architecture.shoppinglistmvp.data.Injection;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
+import com.tomtre.android.architecture.shoppinglistmvp.di.DependencyInjector;
 import com.tomtre.android.architecture.shoppinglistmvp.ui.addeditproduct.AddEditProductActivity;
 import com.tomtre.android.architecture.shoppinglistmvp.ui.productdetail.ProductDetailActivity;
 import com.tomtre.android.architecture.shoppinglistmvp.util.RequestCodes;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,9 +59,11 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
     SwipeRefreshLayout lSwipeRefreshLayout;
 
     Unbinder unbinder;
-    private ProductsContract.Presenter presenter;
     private ProductsAdapter productsAdapter;
     private ProductsAdapter.ProductItemListener productItemListener;
+
+    @Inject
+    ProductsContract.Presenter presenter;
 
     public static ProductsFragment newInstance() {
         return new ProductsFragment();
@@ -69,11 +73,11 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new ProductsPresenter(
-                Injection.provideProductsRepository(getContext()),
-                this);
-        setFilterTypeToPresenter(savedInstanceState);
 
+        DependencyInjector.appComponent()
+                .plusProductsFragmentComponent(new ProductsFragmentModule(this))
+                .inject(this);
+        setFilterTypeToPresenter(savedInstanceState);
         setUpProductListener();
         productsAdapter = new ProductsAdapter(new ArrayList<>(0), productItemListener);
     }

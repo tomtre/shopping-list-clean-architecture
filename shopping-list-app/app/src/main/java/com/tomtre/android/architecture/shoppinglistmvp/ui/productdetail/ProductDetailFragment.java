@@ -20,9 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tomtre.android.architecture.shoppinglistmvp.R;
-import com.tomtre.android.architecture.shoppinglistmvp.data.Injection;
+import com.tomtre.android.architecture.shoppinglistmvp.di.DependencyInjector;
 import com.tomtre.android.architecture.shoppinglistmvp.ui.addeditproduct.AddEditProductActivity;
 import com.tomtre.android.architecture.shoppinglistmvp.util.RequestCodes;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +60,9 @@ public class ProductDetailFragment extends Fragment implements ProductDetailCont
     TextView tvNoProductMessage;
 
     Unbinder unbinder;
-    private ProductDetailContract.Presenter presenter;
+
+    @Inject
+    ProductDetailContract.Presenter presenter;
 
 
     public static ProductDetailFragment newInstance(String productId) {
@@ -72,16 +76,11 @@ public class ProductDetailFragment extends Fragment implements ProductDetailCont
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //noinspection ConstantConditions
         String productId = getArguments().getString(KEY_PRODUCT_ID);
-
-        //noinspection ConstantConditions
-        presenter = new ProductDetailPresenter(
-                productId,
-                Injection.provideProductsRepository(getContext()),
-                this
-        );
+        DependencyInjector.appComponent()
+                .plusProductDetailFragmentComponent(new ProductDetailFragmentModule(productId, this))
+                .inject(this);
     }
 
     @Override
@@ -97,16 +96,12 @@ public class ProductDetailFragment extends Fragment implements ProductDetailCont
         //noinspection ConstantConditions
         FloatingActionButton fabEditProduct = getActivity().findViewById(R.id.fab_edit_product);
         fabEditProduct.setOnClickListener(v -> presenter.editProduct());
-
-        cbProductDetailChecked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
-                if (checkBox.isChecked())
-                    presenter.checkProduct();
-                else
-                    presenter.uncheckProduct();
-            }
+        cbProductDetailChecked.setOnClickListener(v -> {
+            CheckBox checkBox = (CheckBox) v;
+            if (checkBox.isChecked())
+                presenter.checkProduct();
+            else
+                presenter.uncheckProduct();
         });
     }
 
