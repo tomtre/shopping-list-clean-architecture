@@ -7,8 +7,9 @@ Each sample application is placed in a separate branch of the repository.
 ### Branches
 | Branch | Description |
 | ------------- | ------------- |
-| [shopping-list-mvp](https://github.com/tomtre/shopping-list-clean-architecture/tree/shopping-list-mvp) | Architecture: [Model-View-Presenter (MVP)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) |
-| [shopping-list-mvp-dagger-v2.8](https://github.com/tomtre/shopping-list-clean-architecture/tree/shopping-list-mvp-dagger-v2.8) | Architecture: [Model-View-Presenter (MVP)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter)<br />DI framework: [Dagger 2](https://github.com/google/dagger) |
+| [mvp](https://github.com/tomtre/shopping-list-clean-architecture/tree/mvp) | Architecture: [Model-View-Presenter (MVP)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) |
+| [mvp-dagger-v2.8](https://github.com/tomtre/shopping-list-clean-architecture/tree/mvp-dagger-v2.8) | Architecture: [Model-View-Presenter (MVP)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter)<br />DI framework: [Dagger 2](https://github.com/google/dagger) version 2.8 (No Dagger-Android)|
+| [mvp-dagger](https://github.com/tomtre/shopping-list-clean-architecture/tree/mvp-dagger) | Architecture: [Model-View-Presenter (MVP)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter)<br />DI framework: [Dagger 2](https://github.com/google/dagger) |
 
 #### Additional common dependencies
 - [Room](https://developer.android.com/topic/libraries/architecture/room)
