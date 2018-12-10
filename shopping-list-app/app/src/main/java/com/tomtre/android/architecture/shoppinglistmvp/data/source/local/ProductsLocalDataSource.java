@@ -2,23 +2,27 @@ package com.tomtre.android.architecture.shoppinglistmvp.data.source.local;
 
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.ProductsDataSource;
+import com.tomtre.android.architecture.shoppinglistmvp.di.AppScope;
 import com.tomtre.android.architecture.shoppinglistmvp.util.AppExecutors;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.isNull;
 
+@AppScope
 public class ProductsLocalDataSource implements ProductsDataSource {
 
     private final AppExecutors appExecutors;
     private final ProductsDao productsDao;
 
-    public ProductsLocalDataSource(AppExecutors appExecutors, ProductsDao productsDao) {
+    @Inject
+    ProductsLocalDataSource(AppExecutors appExecutors, ProductsDao productsDao) {
         this.appExecutors = appExecutors;
         this.productsDao = productsDao;
     }
-
 
     @Override
     public void getProducts(final LoadProductListCallback loadProductListCallback) {

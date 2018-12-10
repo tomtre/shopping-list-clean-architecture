@@ -5,13 +5,17 @@ import android.support.annotation.Nullable;
 
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.repository.ProductsRepository;
+import com.tomtre.android.architecture.shoppinglistmvp.di.FragmentScope;
 import com.tomtre.android.architecture.shoppinglistmvp.util.EspressoIdlingResource;
 import com.tomtre.android.architecture.shoppinglistmvp.util.RequestCodes;
+
+import javax.inject.Inject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.nonNull;
 
+@FragmentScope
 public class ProductDetailPresenter implements ProductDetailContract.Presenter {
 
     @Nullable
@@ -19,6 +23,7 @@ public class ProductDetailPresenter implements ProductDetailContract.Presenter {
     private final ProductsRepository productsRepository;
     private ProductDetailContract.View productDetailView;
 
+    @Inject
     ProductDetailPresenter(@Nullable String productId, ProductsRepository productsRepository, ProductDetailContract.View view) {
         this.productId = productId;
         this.productsRepository = checkNotNull(productsRepository);

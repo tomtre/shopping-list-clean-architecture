@@ -5,8 +5,13 @@ import com.google.common.collect.ImmutableList;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.ProductsCache;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.ProductsDataSource;
+import com.tomtre.android.architecture.shoppinglistmvp.di.AppScope;
+import com.tomtre.android.architecture.shoppinglistmvp.di.LocalQualifier;
+import com.tomtre.android.architecture.shoppinglistmvp.di.RemoteQualifier;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -14,13 +19,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 @SuppressWarnings("Guava")
+@AppScope
 public class ProductsRepositoryImpl implements ProductsRepository {
 
     private final ProductsCache productsCache;
     private final ProductsDataSource productsRemoteDataSource;
     private final ProductsDataSource productsLocalDataSource;
 
-    public ProductsRepositoryImpl(ProductsCache productsCache, ProductsDataSource productsRemoteDataSource, ProductsDataSource productsLocalDataSource) {
+    @Inject
+    ProductsRepositoryImpl(ProductsCache productsCache,
+                           @RemoteQualifier ProductsDataSource productsRemoteDataSource,
+                           @LocalQualifier ProductsDataSource productsLocalDataSource) {
         this.productsCache = productsCache;
         this.productsRemoteDataSource = productsRemoteDataSource;
         this.productsLocalDataSource = productsLocalDataSource;

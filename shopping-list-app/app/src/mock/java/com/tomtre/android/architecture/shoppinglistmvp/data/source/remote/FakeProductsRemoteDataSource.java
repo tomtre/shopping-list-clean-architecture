@@ -3,16 +3,24 @@ package com.tomtre.android.architecture.shoppinglistmvp.data.source.remote;
 import com.google.common.collect.ImmutableList;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.ProductsDataSource;
+import com.tomtre.android.architecture.shoppinglistmvp.di.AppScope;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.nonNull;
 
+@AppScope
 public class FakeProductsRemoteDataSource implements ProductsDataSource {
 
     private final Map<String, Product> productsServiceData = new LinkedHashMap<>();
+
+    @Inject
+    FakeProductsRemoteDataSource() {
+    }
 
     @Override
     public void getProducts(final LoadProductListCallback loadProductListCallback) {

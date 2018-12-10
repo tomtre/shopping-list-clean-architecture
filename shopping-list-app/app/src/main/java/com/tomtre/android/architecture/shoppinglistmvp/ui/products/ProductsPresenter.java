@@ -1,29 +1,33 @@
 package com.tomtre.android.architecture.shoppinglistmvp.ui.products;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.ProductComparator;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.repository.ProductsRepository;
+import com.tomtre.android.architecture.shoppinglistmvp.di.FragmentScope;
 import com.tomtre.android.architecture.shoppinglistmvp.util.EspressoIdlingResource;
 import com.tomtre.android.architecture.shoppinglistmvp.util.RequestCodes;
 
 import java.text.Collator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.nonNull;
 
+@FragmentScope
 public class ProductsPresenter implements ProductsContract.Presenter {
 
     private final ProductsRepository productsRepository;
     private ProductsContract.View productsView;
     private ProductsFilterType productsFilterType = ProductsFilterType.ALL_PRODUCTS;
 
-    ProductsPresenter(@NonNull ProductsRepository productsRepository, ProductsContract.View view) {
+    @Inject
+    ProductsPresenter(ProductsRepository productsRepository, ProductsContract.View view) {
         this.productsRepository = checkNotNull(productsRepository);
         productsView = checkNotNull(view);
     }

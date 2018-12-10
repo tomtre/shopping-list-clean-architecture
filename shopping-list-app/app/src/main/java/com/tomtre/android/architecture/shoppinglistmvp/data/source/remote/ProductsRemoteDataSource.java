@@ -6,23 +6,27 @@ import android.os.Looper;
 import com.google.common.collect.ImmutableList;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
 import com.tomtre.android.architecture.shoppinglistmvp.data.source.ProductsDataSource;
+import com.tomtre.android.architecture.shoppinglistmvp.di.AppScope;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.nonNull;
 
 /**
  * Implementation of ProductsDataSource that simulate remote source (adds network latency).
  */
+@AppScope
 public class ProductsRemoteDataSource implements ProductsDataSource {
 
     private static final int SERVICE_LATENCY_IN_MILLIS = 3000;
     private final Map<String, Product> productsServiceData = new LinkedHashMap<>();
     private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
-
+    @Inject
     public ProductsRemoteDataSource() {
         addProduct("Milk", "Without lactose", "3", "bottles");
         addProduct("Bread", "Whole grain", "5", null);

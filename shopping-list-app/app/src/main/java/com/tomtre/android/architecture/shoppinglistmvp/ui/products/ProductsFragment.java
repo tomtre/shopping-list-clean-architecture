@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 
 import com.tomtre.android.architecture.shoppinglistmvp.R;
 import com.tomtre.android.architecture.shoppinglistmvp.data.Product;
-import com.tomtre.android.architecture.shoppinglistmvp.di.DependencyInjector;
+import com.tomtre.android.architecture.shoppinglistmvp.di.FragmentScope;
 import com.tomtre.android.architecture.shoppinglistmvp.ui.addeditproduct.AddEditProductActivity;
 import com.tomtre.android.architecture.shoppinglistmvp.ui.productdetail.ProductDetailActivity;
 import com.tomtre.android.architecture.shoppinglistmvp.util.RequestCodes;
@@ -36,10 +35,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.support.DaggerFragment;
 
 import static com.tomtre.android.architecture.shoppinglistmvp.util.CommonUtils.nonNull;
 
-public class ProductsFragment extends Fragment implements ProductsContract.View {
+@FragmentScope
+public class ProductsFragment extends DaggerFragment implements ProductsContract.View {
 
     private static final String KEY_CURRENT_FILTER_TYPE = "KEY_CURRENT_FILTER_TYPE";
 
@@ -69,14 +70,10 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
         return new ProductsFragment();
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DependencyInjector.appComponent()
-                .plusProductsFragmentComponent(new ProductsFragmentModule(this))
-                .inject(this);
         setFilterTypeToPresenter(savedInstanceState);
         setUpProductListener();
         productsAdapter = new ProductsAdapter(new ArrayList<>(0), productItemListener);

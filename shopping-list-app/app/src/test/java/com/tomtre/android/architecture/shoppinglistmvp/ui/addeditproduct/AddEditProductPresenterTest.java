@@ -12,6 +12,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import dagger.Lazy;
+
 import static com.tomtre.android.architecture.shoppinglistmvp.util.ProductsTestUtils.createCheckedProduct;
 import static com.tomtre.android.architecture.shoppinglistmvp.util.ProductsTestUtils.createUncheckedProduct;
 import static org.hamcrest.core.Is.is;
@@ -39,6 +41,8 @@ public class AddEditProductPresenterTest {
 
     private AddEditProductPresenter addEditProductPresenter;
 
+    private Lazy<Boolean> booleanTrueLazy = () -> true;
+
     @Before
     public void setup() {
         given(addEditProductView.isActive()).willReturn(true);
@@ -47,7 +51,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldLoadProductWhenPresenterStartsAndLoadDataFromRepositorySetOnTrue() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.start();
@@ -60,7 +64,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldNotGetProductFromRepositoryWhenPresenterStartsAndLoadDataFromRepositorySetOnFalse() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, false);
+        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, () -> false);
 
         //when
         addEditProductPresenter.start();
@@ -73,7 +77,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldNotGetProductFromRepositoryWhenPresenterStartsAndProductIdIsNull() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.start();
@@ -85,7 +89,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldShowProductInViewWhenShowProduct() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.showProduct(PRODUCT);
@@ -97,7 +101,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldSaveProductInRepositoryWhenSaveProduct() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.saveProduct(PRODUCT.getTitle(), PRODUCT.getDescription(), PRODUCT.getQuantity(), PRODUCT.getUnit());
@@ -116,7 +120,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldShowProductListUiWhenSaveNewProduct() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.saveProduct(PRODUCT.getTitle(), PRODUCT.getDescription(), PRODUCT.getQuantity(), PRODUCT.getUnit());
@@ -128,7 +132,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldShowEmptyProductErrorWhenSaveNewEmptyProduct() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(null, productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.saveProduct("", PRODUCT.getDescription(), PRODUCT.getQuantity(), PRODUCT.getUnit());
@@ -140,7 +144,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldShowProductListUiWhenUpdateExistingProduct() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.saveProduct(PRODUCT.getTitle(), PRODUCT.getDescription(), PRODUCT.getQuantity(), PRODUCT.getUnit());
@@ -153,7 +157,7 @@ public class AddEditProductPresenterTest {
     public void shouldSaveProductToRepositoryWhenUpdateExistingUncheckedProduct() {
         //given
         Product uncheckedProduct = createUncheckedProduct();
-        addEditProductPresenter = new AddEditProductPresenter(uncheckedProduct.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(uncheckedProduct.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
         addEditProductPresenter.setProductCheckedState(uncheckedProduct.isChecked());
 
         //when
@@ -170,7 +174,7 @@ public class AddEditProductPresenterTest {
     public void shouldSaveProductToRepositoryWhenUpdateExistingCheckedProduct() {
         //given
         Product checkedProduct = createCheckedProduct();
-        addEditProductPresenter = new AddEditProductPresenter(checkedProduct.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(checkedProduct.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
         addEditProductPresenter.setProductCheckedState(checkedProduct.isChecked());
 
         //when
@@ -186,7 +190,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldShowEmptyProductErrorWhenUpdateExistingProductAsEmpty() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.saveProduct("", PRODUCT.getDescription(), PRODUCT.getQuantity(), PRODUCT.getUnit());
@@ -198,7 +202,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldDelegateShowEmptyProductErrorToViewWhenShowEmptyProductError() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.showEmptyProductErrorInView();
@@ -210,7 +214,7 @@ public class AddEditProductPresenterTest {
     @Test
     public void shouldDelegateShowMissingProductToViewWhenShowMissingProduct() {
         //given
-        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, true);
+        addEditProductPresenter = new AddEditProductPresenter(PRODUCT.getId(), productsRepositoryImpl, addEditProductView, booleanTrueLazy);
 
         //when
         addEditProductPresenter.showMissingProductInView();

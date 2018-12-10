@@ -1,22 +1,16 @@
 package com.tomtre.android.architecture.shoppinglistmvp.di;
 
+import android.app.Application;
 import android.content.Context;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 
 @Module
-class AppModule {
-    private final Context context;
+abstract class AppModule {
 
-    AppModule(Context context) {
-        this.context = context.getApplicationContext();
-    }
-
-    @Provides
     @AppScope
-    Context provideContext() {
-        return context;
-    }
+    @Binds
+    abstract Context bindContext(Application application);
 
 }
